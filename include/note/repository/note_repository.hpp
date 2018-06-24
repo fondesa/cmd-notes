@@ -5,7 +5,7 @@
 #ifndef NOTES_NOTE_REPOSITORY_HPP
 #define NOTES_NOTE_REPOSITORY_HPP
 
-#include "note/note.hpp"
+#include "note.hpp"
 
 class NoteRepository {
 public:
