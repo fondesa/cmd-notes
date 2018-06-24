@@ -41,6 +41,9 @@ std::string Note::toString() const {
 }
 
 bool Note::operator==(const Note &n) const {
+    if (this == &n) {
+        return true;
+    }
     return this->title == n.title &&
             this->description == n.description;
 }
