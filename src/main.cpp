@@ -14,13 +14,13 @@ void printNotes(NoteRepository *repository);
 int main() {
     auto note = std::make_unique<Note>("dummy", "exadg");
 
-    auto repository = new InMemoryNoteRepository;
+    auto repository = std::make_unique<InMemoryNoteRepository>();
     repository->insert(*note);
     repository->insert(*note);
 
-    printNotes(repository);
+    printNotes(repository.get());
     repository->remove(*note);
-    printNotes(repository);
+    printNotes(repository.get());
     return 0;
 }
 
