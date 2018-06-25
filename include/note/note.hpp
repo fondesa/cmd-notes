@@ -14,10 +14,7 @@ private:
     std::string description;
 
 public:
-    Note(std::string title, std::string description) {
-        this->title = std::move(title);
-        this->description = std::move(description);
-    }
+    Note(std::string title, std::string description);
 
     std::string getTitle() const;
 
@@ -27,25 +24,5 @@ public:
 
     bool operator==(const Note &n) const;
 };
-
-std::string Note::getTitle() const {
-    return title;
-}
-
-std::string Note::getDescription() const {
-    return description;
-}
-
-std::string Note::toString() const {
-    return "Note { title: " + title + ", description: " + description + " }";
-}
-
-bool Note::operator==(const Note &n) const {
-    if (this == &n) {
-        return true;
-    }
-    return this->title == n.title &&
-            this->description == n.description;
-}
 
 #endif //NOTES_NOTE_HPP
