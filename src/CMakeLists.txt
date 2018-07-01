@@ -1,5 +1,6 @@
 set(SOURCES
         main.cpp
+        console/command.cpp
         logging/log.cpp
         logging/logger.cpp
         note/note.cpp
