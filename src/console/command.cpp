@@ -11,11 +11,11 @@ Command::Command(std::string name, std::string shortName, std::function<void()> 
     this->execution = std::move(execution);
 }
 
-std::string Command::getName() {
+std::string Command::getName() const {
     return name;
 }
 
-std::string Command::getShortName() {
+std::string Command::getShortName() const {
     return shortName;
 }
 

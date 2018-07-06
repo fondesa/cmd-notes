@@ -13,6 +13,7 @@ include_directories(${INCLUDE_DIR}
         ${INCLUDE_DIR}/console
         ${INCLUDE_DIR}/logging
         ${INCLUDE_DIR}/note
+        ${INCLUDE_DIR}/note/console
         ${INCLUDE_DIR}/note/repository
         ${INCLUDE_DIR}/util)
 

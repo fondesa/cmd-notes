@@ -5,6 +5,7 @@
 #ifndef NOTES_NOTE_PRESENTER_HPP
 #define NOTES_NOTE_PRESENTER_HPP
 
+#include "command_container.hpp"
 #include "note_repository.hpp"
 #include "note_view.hpp"
 
@@ -25,9 +26,11 @@ class NotePresenterImpl : public NotePresenter {
 private:
     NoteView *view;
     NoteRepository *repository;
+    CommandContainer *commandContainer;
 
 public:
-    explicit NotePresenterImpl(NoteRepository *repository);
+    explicit NotePresenterImpl(NoteRepository *repository,
+                               CommandContainer *commandContainer);
 
     void attachView(NoteView *view) override;
 

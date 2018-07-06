@@ -16,9 +16,9 @@ private:
 public:
     Command(std::string name, std::string shortName, std::function<void()> execution);
 
-    std::string getName();
+    std::string getName() const ;
 
-    std::string getShortName();
+    std::string getShortName() const ;
 
     void execute();
 };
