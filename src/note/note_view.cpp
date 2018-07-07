@@ -16,7 +16,9 @@ void ConsoleNoteView::injectPresenter(NotePresenter &presenter) {
 
 void ConsoleNoteView::allowUserInput() {
     std::string line;
+    std::cout << "Insert command: ";
     std::getline(std::cin, line);
+    print_util::printDivider();
     presenter->inputReceived(line);
 }
 

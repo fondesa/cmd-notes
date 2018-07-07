@@ -39,6 +39,7 @@ void NotePresenterImpl::inputReceived(std::string input) {
         command->execute();
     } else {
         view->showUnrecognizedCommandView(input, *helpCommand);
+        view->allowUserInput();
     }
 }
 
