@@ -9,9 +9,9 @@
 #include "note_view.hpp"
 #include "print_util.hpp"
 
-void ConsoleNoteView::injectPresenter(NotePresenter *presenter) {
-    this->presenter = presenter;
-    presenter->attachView(this);
+void ConsoleNoteView::injectPresenter(NotePresenter &presenter) {
+    this->presenter = &presenter;
+    presenter.attachView(*this);
 }
 
 void ConsoleNoteView::allowUserInput() {

@@ -13,7 +13,7 @@ class NoteView;
 
 class NotePresenter {
 public:
-    virtual void attachView(NoteView *view)=0;
+    virtual void attachView(NoteView &view)=0;
 
     virtual void inputReceived(std::string input)=0;
 
@@ -35,7 +35,7 @@ public:
     explicit NotePresenterImpl(NoteRepository &repository,
                                CommandContainer &commandContainer);
 
-    void attachView(NoteView *view) override;
+    void attachView(NoteView &view) override;
 
     void inputReceived(std::string input) override;
 

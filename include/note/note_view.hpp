@@ -14,7 +14,7 @@ class NotePresenter;
 
 class NoteView {
 public:
-    virtual void injectPresenter(NotePresenter *presenter)=0;
+    virtual void injectPresenter(NotePresenter &presenter)=0;
 
     virtual void allowUserInput()=0;
 
@@ -34,7 +34,7 @@ private:
     NotePresenter *presenter = nullptr;
 
 public:
-    void injectPresenter(NotePresenter *presenter) override;
+    void injectPresenter(NotePresenter &presenter) override;
 
     void allowUserInput() override;
 

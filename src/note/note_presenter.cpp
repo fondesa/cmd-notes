@@ -23,14 +23,14 @@ NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
     });
 }
 
-void NotePresenterImpl::attachView(NoteView *view) {
-    this->view = view;
+void NotePresenterImpl::attachView(NoteView &view) {
+    this->view = &view;
 
     auto note = std::make_unique<Note>("dummy", "example");
     requestNoteSaving(*note);
     requestNoteSaving(*note);
 
-    view->allowUserInput();
+    view.allowUserInput();
 }
 
 void NotePresenterImpl::inputReceived(std::string input) {

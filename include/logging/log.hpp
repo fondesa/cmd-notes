@@ -14,7 +14,7 @@ private:
     static Logger *logger;
 
 public:
-    static void registerLogger(Logger *logger);
+    static void registerLogger(Logger &logger);
 
     static void log(Severity severity, const std::string &msg);
 };

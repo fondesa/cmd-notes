@@ -5,10 +5,10 @@
 #include "log.hpp"
 #include "logger.hpp"
 
-Logger* Log::logger = nullptr;
+Logger *Log::logger = nullptr;
 
-void Log::registerLogger(Logger *logger) {
-    Log::logger = logger;
+void Log::registerLogger(Logger &logger) {
+    Log::logger = &logger;
 }
 
 void Log::log(Severity severity, const std::string &msg) {
