@@ -10,26 +10,37 @@ NotePresenterImpl::NotePresenterImpl(NoteRepository *repository,
                                      CommandContainer *commandContainer) {
     this->repository = repository;
     this->commandContainer = commandContainer;
-}
-
-void NotePresenterImpl::attachView(NoteView *view) {
-    this->view = view;
+    helpCommand = std::make_unique<Command>("help", "h", [&]() {
+        //TODO
+    });
+    commandContainer->insertCommand(*helpCommand);
 
     auto insertCommand = [&](std::string name, std::string shortName, std::function<void()> execution) {
         auto command = std::make_unique<Command>(name, shortName, execution);
         commandContainer->insertCommand(*command);
     };
-
     insertCommand("list", "ls", [&]() {
         requestAllNotes();
     });
+}
+
+void NotePresenterImpl::attachView(NoteView *view) {
+    this->view = view;
 
     auto note = std::make_unique<Note>("dummy", "example");
     requestNoteSaving(*note);
     requestNoteSaving(*note);
-    requestAllNotes();
-    requestNoteDeletion(*note);
-    requestAllNotes();
+
+    view->allowUserInput();
+}
+
+void NotePresenterImpl::inputReceived(std::string input) {
+    auto command = commandContainer->provideCommandByName(input);
+    if (command) {
+        command->execute();
+    } else {
+        view->showUnrecognizedCommandView(input, *helpCommand);
+    }
 }
 
 void NotePresenterImpl::requestAllNotes() {

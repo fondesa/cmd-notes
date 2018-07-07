@@ -14,7 +14,11 @@ class NotePresenter;
 
 class NoteView {
 public:
-    virtual void injectPresenter(NotePresenter * presenter)=0;
+    virtual void injectPresenter(NotePresenter *presenter)=0;
+
+    virtual void allowUserInput()=0;
+
+    virtual void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand)=0;
 
     virtual void showZeroNotes()=0;
 
@@ -31,6 +35,10 @@ private:
 
 public:
     void injectPresenter(NotePresenter *presenter) override;
+
+    void allowUserInput() override;
+
+    void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) override;
 
     void showZeroNotes() override;
 

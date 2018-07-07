@@ -15,6 +15,8 @@ class NotePresenter {
 public:
     virtual void attachView(NoteView *view)=0;
 
+    virtual void inputReceived(std::string input)=0;
+
     virtual void requestAllNotes()=0;
 
     virtual void requestNoteSaving(const Note &note)=0;
@@ -27,12 +29,15 @@ private:
     NoteView *view;
     NoteRepository *repository;
     CommandContainer *commandContainer;
+    std::unique_ptr<Command> helpCommand;
 
 public:
     explicit NotePresenterImpl(NoteRepository *repository,
                                CommandContainer *commandContainer);
 
     void attachView(NoteView *view) override;
+
+    void inputReceived(std::string input) override;
 
     void requestAllNotes() override;
 

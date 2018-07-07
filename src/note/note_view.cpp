@@ -14,6 +14,12 @@ void ConsoleNoteView::injectPresenter(NotePresenter *presenter) {
     presenter->attachView(this);
 }
 
+void ConsoleNoteView::allowUserInput() {
+    std::string line;
+    std::getline(std::cin, line);
+    presenter->inputReceived(line);
+}
+
 void ConsoleNoteView::showZeroNotes() {
     std::cout << "There aren't notes." << std::endl;
     print_util::printDivider();
@@ -43,5 +49,18 @@ void ConsoleNoteView::showSuccessfulSaving() {
 
 void ConsoleNoteView::showSuccessfulDeletion() {
     std::cout << "The note was successfully deleted." << std::endl;
+    print_util::printDivider();
+}
+
+void ConsoleNoteView::showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) {
+    std::cout << "The command \""
+              << receivedInput
+              << "\" can't be recognized."
+              << "\nUse \""
+              << helpCommand.getName()
+              << "\" or \""
+              << helpCommand.getShortName()
+              << "\" to show the available commands."
+              << std::endl;
     print_util::printDivider();
 }
