@@ -21,8 +21,7 @@ int main() {
     std::unique_ptr<NoteRepository> repository = std::make_unique<InMemoryNoteRepository>();
     std::unique_ptr<CommandContainer> commandContainer = std::make_unique<NoteCommandContainer>();
     std::unique_ptr<NoteView> noteView = std::make_unique<ConsoleNoteView>();
-    std::unique_ptr<NotePresenter> notePresenter = std::make_unique<NotePresenterImpl>(repository.get(),
-                                                                                       commandContainer.get());
+    std::unique_ptr<NotePresenter> notePresenter = std::make_unique<NotePresenterImpl>(*repository, *commandContainer);
     noteView->injectPresenter(notePresenter.get());
     return 0;
 }

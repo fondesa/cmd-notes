@@ -6,18 +6,17 @@
 #include "note_presenter.hpp"
 #include "note_view.hpp"
 
-NotePresenterImpl::NotePresenterImpl(NoteRepository *repository,
-                                     CommandContainer *commandContainer) {
-    this->repository = repository;
-    this->commandContainer = commandContainer;
+NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
+                                     CommandContainer &commandContainer) : repository(repository),
+                                                                           commandContainer(commandContainer) {
     helpCommand = std::make_unique<Command>("help", "h", [&]() {
         //TODO
     });
-    commandContainer->insertCommand(*helpCommand);
+    commandContainer.insertCommand(*helpCommand);
 
     auto insertCommand = [&](std::string name, std::string shortName, std::function<void()> execution) {
         auto command = std::make_unique<Command>(name, shortName, execution);
-        commandContainer->insertCommand(*command);
+        commandContainer.insertCommand(*command);
     };
     insertCommand("list", "ls", [&]() {
         requestAllNotes();
@@ -35,7 +34,7 @@ void NotePresenterImpl::attachView(NoteView *view) {
 }
 
 void NotePresenterImpl::inputReceived(std::string input) {
-    auto command = commandContainer->provideCommandByName(input);
+    auto command = commandContainer.provideCommandByName(input);
     if (command) {
         command->execute();
     } else {
@@ -44,7 +43,7 @@ void NotePresenterImpl::inputReceived(std::string input) {
 }
 
 void NotePresenterImpl::requestAllNotes() {
-    auto notes = repository->getAll();
+    auto notes = repository.getAll();
     if (notes.empty()) {
         view->showZeroNotes();
     } else {
@@ -53,11 +52,11 @@ void NotePresenterImpl::requestAllNotes() {
 }
 
 void NotePresenterImpl::requestNoteSaving(const Note &note) {
-    repository->insert(note);
+    repository.insert(note);
     view->showSuccessfulSaving();
 }
 
 void NotePresenterImpl::requestNoteDeletion(const Note &note) {
-    repository->remove(note);
+    repository.remove(note);
     view->showSuccessfulDeletion();
 }

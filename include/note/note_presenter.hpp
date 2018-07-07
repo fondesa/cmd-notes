@@ -26,14 +26,14 @@ public:
 
 class NotePresenterImpl : public NotePresenter {
 private:
+    NoteRepository &repository;
+    CommandContainer &commandContainer;
     NoteView *view;
-    NoteRepository *repository;
-    CommandContainer *commandContainer;
     std::unique_ptr<Command> helpCommand;
 
 public:
-    explicit NotePresenterImpl(NoteRepository *repository,
-                               CommandContainer *commandContainer);
+    explicit NotePresenterImpl(NoteRepository &repository,
+                               CommandContainer &commandContainer);
 
     void attachView(NoteView *view) override;
 
