@@ -6,12 +6,15 @@
 #define NOTES_PRINT_UTIL_HPP
 
 #include <iostream>
+#include <iomanip>
 
 namespace print_util {
     void printDivider();
 
     void printDivider() {
-        std::cout << "\n=====================================\n" << std::endl;
+        std::cout << std::endl << std::setfill('=') << std::setw(70) << "=" << std::endl << std::endl;
+        // Resets the filling using the space character.
+        std::cout << std::setfill(' ');
     }
 }
 
