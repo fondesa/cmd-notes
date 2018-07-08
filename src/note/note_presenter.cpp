@@ -9,17 +9,31 @@
 NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
                                      CommandContainer &commandContainer) : repository(repository),
                                                                            commandContainer(commandContainer) {
-    helpCommand = std::make_unique<Command>("help", "h", [&]() {
+
+    auto wrapIO = [&](std::function<void()> execution) -> std::function<void()> {
+        return [=]() mutable {
+            view->prepareOutputView();
+            execution();
+            view->discardPreviousInputView();
+            view->allowUserInput();
+        };
+    };
+
+    helpCommand = std::make_unique<Command>("help", "h", wrapIO([&]() {
         //TODO
-    });
+    }));
     commandContainer.insertCommand(*helpCommand);
 
     auto insertCommand = [&](std::string name, std::string shortName, std::function<void()> execution) {
         auto command = std::make_unique<Command>(name, shortName, execution);
         commandContainer.insertCommand(*command);
     };
-    insertCommand("list", "ls", [&]() {
+
+    insertCommand("list", "ls", wrapIO([&]() {
         requestAllNotes();
+    }));
+    insertCommand("quit", "q", [&](){
+        // The user exit.
     });
 }
 
@@ -38,7 +52,9 @@ void NotePresenterImpl::inputReceived(std::string input) {
     if (command) {
         command->execute();
     } else {
+        view->prepareOutputView();
         view->showUnrecognizedCommandView(input, *helpCommand);
+        view->discardPreviousInputView();
         view->allowUserInput();
     }
 }

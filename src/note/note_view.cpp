@@ -18,13 +18,19 @@ void ConsoleNoteView::allowUserInput() {
     std::string line;
     std::cout << "Insert command: ";
     std::getline(std::cin, line);
-    print_util::printDivider();
     presenter->inputReceived(line);
+}
+
+void ConsoleNoteView::discardPreviousInputView() {
+    print_util::printDivider();
+}
+
+void ConsoleNoteView::prepareOutputView() {
+    std::cout << std::endl;
 }
 
 void ConsoleNoteView::showZeroNotes() {
     std::cout << "There aren't notes." << std::endl;
-    print_util::printDivider();
 }
 
 void ConsoleNoteView::showAllNotes(std::vector<Note> notes) {
@@ -40,18 +46,14 @@ void ConsoleNoteView::showAllNotes(std::vector<Note> notes) {
         }
         std::cout << std::endl;
     }
-
-    print_util::printDivider();
 }
 
 void ConsoleNoteView::showSuccessfulSaving() {
     std::cout << "The note was successfully saved." << std::endl;
-    print_util::printDivider();
 }
 
 void ConsoleNoteView::showSuccessfulDeletion() {
     std::cout << "The note was successfully deleted." << std::endl;
-    print_util::printDivider();
 }
 
 void ConsoleNoteView::showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) {
@@ -64,5 +66,4 @@ void ConsoleNoteView::showUnrecognizedCommandView(const std::string &receivedInp
               << helpCommand.getShortName()
               << "\" to show the available commands."
               << std::endl;
-    print_util::printDivider();
 }

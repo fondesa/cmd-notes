@@ -18,6 +18,10 @@ public:
 
     virtual void allowUserInput()=0;
 
+    virtual void discardPreviousInputView()=0;
+
+    virtual void prepareOutputView()=0;
+
     virtual void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand)=0;
 
     virtual void showZeroNotes()=0;
@@ -37,6 +41,10 @@ public:
     void injectPresenter(NotePresenter &presenter) override;
 
     void allowUserInput() override;
+
+    void discardPreviousInputView() override;
+
+    void prepareOutputView() override;
 
     void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) override;
 
