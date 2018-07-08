@@ -12,15 +12,20 @@ class Command {
 private:
     std::string name;
     std::string shortName;
+    std::string description;
     std::function<void()> execution;
 public:
-    Command(std::string name, std::string shortName, std::function<void()> execution);
+    Command(std::string name, std::string shortName, std::string description, std::function<void()> execution);
 
-    std::string getName() const ;
+    std::string getName() const;
 
-    std::string getShortName() const ;
+    std::string getShortName() const;
+
+    std::string getDescription() const;
 
     void execute();
+
+    bool operator<(const Command &command) const;
 };
 
 #endif //NOTES_COMMAND_HPP

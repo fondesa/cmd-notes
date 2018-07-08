@@ -19,21 +19,28 @@ NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
         };
     };
 
-    helpCommand = std::make_unique<Command>("help", "h", wrapIO([&]() {
-        //TODO
+    helpCommand = std::make_unique<Command>("help", "h", "Shows the list of the available commands.", wrapIO([&]() {
+        auto commands = commandContainer.provideCommandList();
+        // Sorts the vector using the "<" operator.
+        std::sort(commands.begin(), commands.end());
+        view->showHelpView(commands);
     }));
     commandContainer.insertCommand(*helpCommand);
 
-    auto insertCommand = [&](std::string name, std::string shortName, std::function<void()> execution) {
-        auto command = std::make_unique<Command>(name, shortName, execution);
+    auto insertCommand = [&](std::string name,
+                             std::string shortName,
+                             std::string description,
+                             std::function<void()> execution) {
+        auto command = std::make_unique<Command>(name, shortName, description, execution);
         commandContainer.insertCommand(*command);
     };
 
-    insertCommand("list", "ls", wrapIO([&]() {
+    insertCommand("list", "ls", "Lists all the saved notes.", wrapIO([&]() {
         requestAllNotes();
     }));
-    insertCommand("quit", "q", [&](){
-        // The user exit.
+
+    insertCommand("quit", "q", "Quits the program.", [&]() {
+        // The user exited.
     });
 }
 

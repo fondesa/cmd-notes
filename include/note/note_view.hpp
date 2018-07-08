@@ -24,6 +24,8 @@ public:
 
     virtual void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand)=0;
 
+    virtual void showHelpView(std::vector<Command> commands)=0;
+
     virtual void showZeroNotes()=0;
 
     virtual void showAllNotes(std::vector<Note> notes)=0;
@@ -47,6 +49,8 @@ public:
     void prepareOutputView() override;
 
     void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) override;
+
+    void showHelpView(std::vector<Command> commands) override;
 
     void showZeroNotes() override;
 
