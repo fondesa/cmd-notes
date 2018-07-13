@@ -15,11 +15,11 @@ class NotePresenter {
 public:
     virtual void attachView(NoteView &view)=0;
 
-    virtual void inputReceived(std::string input)=0;
+    virtual void commandInputReceived(std::string input)=0;
 
-    virtual void requestAllNotes()=0;
+    virtual void noteTitleInputReceived(std::string input)=0;
 
-    virtual void requestNoteSaving(const Note &note)=0;
+    virtual void noteDescriptionInputReceived(std::string input)=0;
 
     virtual void requestNoteDeletion(const Note &note)=0;
 };
@@ -30,6 +30,7 @@ private:
     CommandContainer &commandContainer;
     NoteView *view;
     std::unique_ptr<Command> helpCommand;
+    std::string pendingTitle;
 
 public:
     explicit NotePresenterImpl(NoteRepository &repository,
@@ -37,11 +38,11 @@ public:
 
     void attachView(NoteView &view) override;
 
-    void inputReceived(std::string input) override;
+    void commandInputReceived(std::string input) override;
 
-    void requestAllNotes() override;
+    void noteTitleInputReceived(std::string input) override;
 
-    void requestNoteSaving(const Note &note) override;
+    void noteDescriptionInputReceived(std::string input) override;
 
     void requestNoteDeletion(const Note &note) override;
 };

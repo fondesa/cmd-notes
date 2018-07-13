@@ -15,6 +15,8 @@ private:
     std::vector<Note> notes;
 
 public:
+    bool contains(const Note &note) override;
+
     void insert(const Note &note) override;
 
     void remove(const Note &note) override;

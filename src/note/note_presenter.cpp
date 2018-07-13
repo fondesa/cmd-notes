@@ -12,10 +12,10 @@ NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
 
     auto wrapIO = [&](std::function<void()> execution) -> std::function<void()> {
         return [=]() mutable {
-            view->prepareOutputView();
+            view->prepareNewView();
             execution();
             view->discardPreviousInputView();
-            view->allowUserInput();
+            view->showCommandInputView();
         };
     };
 
@@ -36,51 +36,68 @@ NotePresenterImpl::NotePresenterImpl(NoteRepository &repository,
     };
 
     insertCommand("list", "ls", "Lists all the saved notes.", wrapIO([&]() {
-        requestAllNotes();
+        auto notes = repository.getAll();
+        if (notes.empty()) {
+            view->showZeroNotes();
+        } else {
+            view->showAllNotes(notes);
+        }
     }));
 
     insertCommand("quit", "q", "Quits the program.", [&]() {
         // The user exited.
     });
+
+    insertCommand("insert", "in", "Inserts a new note.", wrapIO([&]() {
+        view->showNoteTitleInputView();
+    }));
 }
 
 void NotePresenterImpl::attachView(NoteView &view) {
     this->view = &view;
 
-    auto note = std::make_unique<Note>("dummy", "example");
-    requestNoteSaving(*note);
-    requestNoteSaving(*note);
-
-    view.allowUserInput();
+    view.showCommandInputView();
 }
 
-void NotePresenterImpl::inputReceived(std::string input) {
+void NotePresenterImpl::commandInputReceived(std::string input) {
     auto command = commandContainer.provideCommandByName(input);
     if (command) {
         command->execute();
     } else {
-        view->prepareOutputView();
+        view->prepareNewView();
         view->showUnrecognizedCommandView(input, *helpCommand);
         view->discardPreviousInputView();
-        view->allowUserInput();
+        view->showCommandInputView();
     }
 }
 
-void NotePresenterImpl::requestAllNotes() {
-    auto notes = repository.getAll();
-    if (notes.empty()) {
-        view->showZeroNotes();
+void NotePresenterImpl::noteTitleInputReceived(std::string input) {
+    view->prepareNewView();
+    if (input.empty()) {
+        view->showInvalidNoteTitleView();
+        view->prepareNewView();
+        view->showNoteTitleInputView();
     } else {
-        view->showAllNotes(notes);
+        pendingTitle = input;
+        view->showNoteDescriptionInputView();
     }
 }
 
-void NotePresenterImpl::requestNoteSaving(const Note &note) {
-    repository.insert(note);
-    view->showSuccessfulSaving();
+void NotePresenterImpl::noteDescriptionInputReceived(std::string input) {
+    view->prepareNewView();
+
+    auto note = std::make_unique<Note>(pendingTitle, input);
+    if (repository.contains(*note)) {
+        view->showNoteAlreadyExistView();
+    } else {
+        repository.insert(*note);
+        view->showNoteSuccessfulSaving();
+    }
+    view->discardPreviousInputView();
+    view->showCommandInputView();
 }
 
 void NotePresenterImpl::requestNoteDeletion(const Note &note) {
     repository.remove(note);
-    view->showSuccessfulDeletion();
+    view->showNoteSuccessfulDeletion();
 }

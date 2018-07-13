@@ -16,11 +16,15 @@ class NoteView {
 public:
     virtual void injectPresenter(NotePresenter &presenter)=0;
 
-    virtual void allowUserInput()=0;
+    virtual void showCommandInputView()=0;
+
+    virtual void showNoteTitleInputView()=0;
+
+    virtual void showNoteDescriptionInputView()=0;
 
     virtual void discardPreviousInputView()=0;
 
-    virtual void prepareOutputView()=0;
+    virtual void prepareNewView()=0;
 
     virtual void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand)=0;
 
@@ -30,9 +34,13 @@ public:
 
     virtual void showAllNotes(std::vector<Note> notes)=0;
 
-    virtual void showSuccessfulSaving()=0;
+    virtual void showInvalidNoteTitleView()=0;
 
-    virtual void showSuccessfulDeletion()=0;
+    virtual void showNoteSuccessfulSaving()=0;
+
+    virtual void showNoteAlreadyExistView()=0;
+
+    virtual void showNoteSuccessfulDeletion()=0;
 };
 
 class ConsoleNoteView : public NoteView {
@@ -42,11 +50,15 @@ private:
 public:
     void injectPresenter(NotePresenter &presenter) override;
 
-    void allowUserInput() override;
+    void showCommandInputView() override;
+
+    void showNoteTitleInputView() override;
+
+    void showNoteDescriptionInputView() override;
 
     void discardPreviousInputView() override;
 
-    void prepareOutputView() override;
+    void prepareNewView() override;
 
     void showUnrecognizedCommandView(const std::string &receivedInput, const Command &helpCommand) override;
 
@@ -56,9 +68,13 @@ public:
 
     void showAllNotes(std::vector<Note> notes) override;
 
-    void showSuccessfulSaving() override;
+    void showInvalidNoteTitleView() override;
 
-    void showSuccessfulDeletion() override;
+    void showNoteSuccessfulSaving() override;
+
+    void showNoteAlreadyExistView() override;
+
+    void showNoteSuccessfulDeletion() override;
 };
 
 #endif //NOTES_NOTE_VIEW_HPP

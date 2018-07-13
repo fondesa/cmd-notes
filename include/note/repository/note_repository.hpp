@@ -9,6 +9,8 @@
 
 class NoteRepository {
 public:
+    virtual bool contains(const Note &note)=0;
+
     virtual void insert(const Note &note)=0;
 
     virtual void remove(const Note &note)=0;

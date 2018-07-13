@@ -18,7 +18,12 @@ std::string Note::getDescription() const {
 }
 
 std::string Note::toString() const {
-    return "Note { title: " + title + ", description: " + description + " }";
+    auto text = "Note { title: " + title;
+    if (!description.empty()) {
+        text += ", description: " + description;
+    }
+    text += " }";
+    return text;
 }
 
 bool Note::operator==(const Note &n) const {

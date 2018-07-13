@@ -15,18 +15,32 @@ void ConsoleNoteView::injectPresenter(NotePresenter &presenter) {
     presenter.attachView(*this);
 }
 
-void ConsoleNoteView::allowUserInput() {
+void ConsoleNoteView::showCommandInputView() {
     std::string line;
     std::cout << "Insert command: ";
     std::getline(std::cin, line);
-    presenter->inputReceived(line);
+    presenter->commandInputReceived(line);
+}
+
+void ConsoleNoteView::showNoteTitleInputView() {
+    std::string line;
+    std::cout << "Write the note's title: ";
+    std::getline(std::cin, line);
+    presenter->noteTitleInputReceived(line);
+}
+
+void ConsoleNoteView::showNoteDescriptionInputView() {
+    std::string line;
+    std::cout << "Write the note's description: ";
+    std::getline(std::cin, line);
+    presenter->noteDescriptionInputReceived(line);
 }
 
 void ConsoleNoteView::discardPreviousInputView() {
     print_util::printDivider();
 }
 
-void ConsoleNoteView::prepareOutputView() {
+void ConsoleNoteView::prepareNewView() {
     std::cout << std::endl;
 }
 
@@ -74,10 +88,18 @@ void ConsoleNoteView::showAllNotes(std::vector<Note> notes) {
     }
 }
 
-void ConsoleNoteView::showSuccessfulSaving() {
+void ConsoleNoteView::showInvalidNoteTitleView() {
+    std::cout << "This note's title is not valid." << std::endl;
+}
+
+void ConsoleNoteView::showNoteAlreadyExistView() {
+    std::cout << "A note with the same title and description already exists." << std::endl;
+}
+
+void ConsoleNoteView::showNoteSuccessfulSaving() {
     std::cout << "The note was successfully saved." << std::endl;
 }
 
-void ConsoleNoteView::showSuccessfulDeletion() {
+void ConsoleNoteView::showNoteSuccessfulDeletion() {
     std::cout << "The note was successfully deleted." << std::endl;
 }
